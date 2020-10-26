@@ -39,7 +39,7 @@ export const useSimpleSpring = (options: Partial<Options> = defaultOpts): any =>
   return { ...spring, onEnd, removeListeners }
 }
 
-export const useSpring = (transforms: Transform, options: Partial<Options> = defaultOpts): [Result, { [key: string]: string }] => {
+export const useSpring = (transforms: Transform = {}, options: Partial<Options> = defaultOpts): [Result, { [key: string]: string }] => {
   const spring = useSimpleSpring(options)
   return [spring, interpolate(transforms, spring.value)]
 }
