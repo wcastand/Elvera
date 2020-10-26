@@ -3,6 +3,7 @@ import React from 'react'
 import useChain from './useChain'
 import interpolate from './interpolate'
 import useSpring, { useSimpleSpring } from './useSpring'
+import SpringProvider from './useSpringContext'
 
 export const Test: React.FC<{ tr: any }> = ({ tr }) => {
   const s = useSimpleSpring({ auto: false })
@@ -115,3 +116,5 @@ export const TestStagger = () => {
     </>
   )
 }
+
+export const wrapper: React.FC = ({ children }) => <SpringProvider>{children}</SpringProvider>

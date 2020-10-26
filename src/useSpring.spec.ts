@@ -1,5 +1,9 @@
 import { act, renderHook } from '@testing-library/react-hooks'
-import useSpring, { interpolate, parse, computeStyle, isTransform, calculate } from './useSpring'
+
+import { useSpring, useSimpleSpring } from './useSpring'
+import interpolate, { parse, computeStyle, isTransform, calculate } from './interpolate'
+
+import { wrapper } from './helpers'
 
 test('isTranform', () => {
   expect(isTransform('matrix')).toBe(true)
@@ -75,7 +79,22 @@ test('calculate + computeStyle', () => {
 })
 
 test('should use spring', async () => {
-  const { result, waitFor } = renderHook(() => useSpring({ auto: false }))
+  const { result, waitFor } = renderHook(() => useSpring({ left: [0, 100, 'px'], translateX: [-100, 200, 'px'] }, { auto: false }), {
+    wrapper,
+  })
+  expect(result.current[1]).toStrictEqual({
+    left: '0px',
+    transform: 'translateX(-100px)',
+  })
+  act(() => result.current[0].start())
+  await waitFor(() => result.current[0].done, { timeout: 1000 })
+  expect(result.current[1]).toStrictEqual({
+    left: '100px',
+    transform: 'translateX(200px)',
+  })
+})
+test('should use simple spring', async () => {
+  const { result, waitFor } = renderHook(() => useSimpleSpring({ auto: false }), { wrapper })
   expect(interpolate({ left: [0, 100, 'px'], translateX: [-100, 200, 'px'] }, result.current.value)).toStrictEqual({
     left: '0px',
     transform: 'translateX(-100px)',
@@ -87,28 +106,34 @@ test('should use spring', async () => {
     transform: 'translateX(200px)',
   })
 })
+
 test('should use spring', async () => {
-  const { result, waitFor } = renderHook(() => useSpring({ auto: false }))
-  expect(
-    interpolate(
-      {
-        left: [0, 100, 'px'],
-        translateX: [-100, 200, 'px'],
-        rotate: [0, 180, 'deg'],
-        scale3d: ['2.5, 1.2, 0.3', '1, 2, 0.3'],
-      },
-      result.current.value
-    )
-  ).toStrictEqual({ left: '0px', transform: 'translateX(-100px) rotate(0deg) scale3d(2.5, 1.2, 0.3)' })
-  act(() => result.current.start())
-  await waitFor(() => result.current.done, { timeout: 1000 })
-  expect(interpolate({ left: [0, 100, 'px'] }, result.current.value)).toStrictEqual({ left: '100px' })
+  const { result, waitFor } = renderHook(
+    () =>
+      useSpring(
+        {
+          left: [0, 100, 'px'],
+          translateX: [-100, 200, 'px'],
+          rotate: [0, 180, 'deg'],
+          scale3d: ['2.5, 1.2, 0.3', '1, 2, 0.3'],
+        },
+        { auto: false }
+      ),
+    { wrapper }
+  )
+  expect(result.current[1]).toStrictEqual({ left: '0px', transform: 'translateX(-100px) rotate(0deg) scale3d(2.5, 1.2, 0.3)' })
+  act(() => result.current[0].start())
+  await waitFor(() => result.current[0].done, { timeout: 1000 })
+  expect(result.current[1]).toStrictEqual({
+    left: '100px',
+    transform: `translateX(200px) rotate(180deg) scale3d(1, 2, 0.3)`,
+  })
 })
 
 test('should call onEnd', async () => {
   const onEnd = jest.fn()
-  const { result, waitFor } = renderHook(() => useSpring())
-  act(() => result.current.onEnd(onEnd))
-  await waitFor(() => result.current.done, { timeout: 2000 })
+  const { result, waitFor } = renderHook(() => useSpring(), { wrapper })
+  act(() => result.current[0].onEnd(onEnd))
+  await waitFor(() => result.current[0].done, { timeout: 2000 })
   expect(onEnd.mock.calls.length).toBe(1)
 })

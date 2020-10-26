@@ -7,7 +7,7 @@ import { Options, Transform, Result } from './types'
 
 export const defaultOpts: Options = { stiffness: 150, damping: 20, mass: 1, auto: true }
 
-export const useSimpleSpring = (options: Partial<Options> = defaultOpts): any => {
+export const useSimpleSpring = (options: Partial<Options> = defaultOpts): Result => {
   const { stiffness, damping, mass, auto } = { ...defaultOpts, ...options } as Options
   const springCtx = useContext(SpringContext)
   const springId = useRef(shortid.generate())
@@ -36,7 +36,7 @@ export const useSimpleSpring = (options: Partial<Options> = defaultOpts): any =>
 
   useEffect(() => () => removeListeners(), [])
 
-  return { ...spring, onEnd, removeListeners }
+  return { ...spring!, onEnd, removeListeners }
 }
 
 export const useSpring = (transforms: Transform = {}, options: Partial<Options> = defaultOpts): [Result, { [key: string]: string }] => {

@@ -1,0 +1,3 @@
+.storybook
+**/*.stories.mdx
+**/*.spec.ts
