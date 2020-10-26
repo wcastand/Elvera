@@ -178,22 +178,22 @@ The key represent the css property with the exception of the `transform` propert
 
 `Result` is the spring object and his current state.
 
-| Name            | Description                                           | Default  | Type       |
-| --------------- | ----------------------------------------------------- | -------- | ---------- |
-| springid        | id of the spring (used for events)                    | -        | string     |
-| isStarted       | is the spring animating                               | false    | boolean    |
-| time            | time of the last frame (from `requestAnimationFrame`) | 0        | number     |
-| done            | is the spring animation finished                      | false    | boolean    |
-| stiffness       | spring energetic load                                 | 150      | number     |
-| damping         | spring resistence                                     | 20       | number     |
-| mass            | spring mass                                           | 1        | number     |
-| value           | current spring value(between 0(start) and 1(end))     | 0        | number     |
-| velocity        | velocity of the spring                                | 0        | number     |
-| start           | function to start the spring animation                | -        | () => void |
-| end             | function to stop the spring animation                 | -        | () => void |
-| reset           | function to reset the spring animation                | -        | () => void |
-| onEnd           | callback at the end of the spring animation           | () => {} | () => void |
-| removeListeners | remove listeners of the spring animation              | -        | () => void |
+| Name            | Description                                           | Default  | Type                    |
+| --------------- | ----------------------------------------------------- | -------- | ----------------------- |
+| springid        | id of the spring (used for events)                    | -        | string                  |
+| isStarted       | is the spring animating                               | false    | boolean                 |
+| time            | time of the last frame (from `requestAnimationFrame`) | 0        | number                  |
+| done            | is the spring animation finished                      | false    | boolean                 |
+| stiffness       | spring energetic load                                 | 150      | number                  |
+| damping         | spring resistence                                     | 20       | number                  |
+| mass            | spring mass                                           | 1        | number                  |
+| value           | current spring value(between 0(start) and 1(end))     | 0        | number                  |
+| velocity        | velocity of the spring                                | 0        | number                  |
+| start           | function to start the spring animation                | -        | () => void              |
+| end             | function to stop the spring animation                 | -        | () => void              |
+| reset           | function to reset the spring animation                | -        | () => void              |
+| onEnd           | callback at the end of the spring animation           | () => {} | (fn:() => void) => void |
+| removeListeners | remove listeners of the spring animation              | -        | () => void              |
 
 ```ts
 export type Result = {
