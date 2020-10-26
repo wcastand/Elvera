@@ -1,6 +1,6 @@
 import { Meta, Story, Canvas } from '@storybook/addon-docs/blocks'
 
-import { Test } from './helpers'
+import { Test, TestComplete } from './helpers'
 
 <Meta title="MDX/useSpring" component={Test} />
 
@@ -12,6 +12,7 @@ To get a spring function to interpolate.
 
 <Story name="Basic">
   <Test tr={{ left: [0, 150, 'px'] }} />
+  <TestComplete tr={{ left: [0, 150, 'px'] }} />
 </Story>
 
 ```tsx

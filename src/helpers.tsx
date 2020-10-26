@@ -8,6 +8,7 @@ import SpringProvider from './useSpringContext'
 export const Test: React.FC<{ tr: any }> = ({ tr }) => {
   const s = useSimpleSpring({ auto: false })
   const s2 = useSimpleSpring({ auto: false, damping: 5 })
+  const s3 = useSimpleSpring({ damping: 5 })
   React.useEffect(() => {
     s.onEnd(() => console.log('end'))
   }, [])
@@ -70,18 +71,18 @@ export const Test: React.FC<{ tr: any }> = ({ tr }) => {
       <div style={{ zIndex: 0, position: 'relative' }}>
         <span style={{ position: 'relative', display: 'block', width: 150, height: 50, ...interpolate(tr, s2.value) }}>Hello</span>
       </div>
+      <div style={{ zIndex: 0, position: 'relative' }}>
+        <span style={{ position: 'relative', display: 'block', width: 150, height: 50, ...interpolate(tr, s3.value) }}>Hello</span>
+      </div>
     </>
   )
 }
 export const TestComplete: React.FC<{ tr: any }> = ({ tr }) => {
-  const [spring, style] = useSpring(tr, { auto: false })
+  const [, style] = useSpring(tr, { damping: 4 })
   return (
     <>
-      <button style={{ zIndex: 99, marginBottom: 50 }} onClick={() => spring.start()}>
-        start
-      </button>
       <div style={{ zIndex: 0, position: 'relative' }}>
-        <span style={{ position: 'relative', display: 'block', width: 150, height: 50, ...style }}>Hello</span>
+        <span style={{ position: 'relative', display: 'block', width: 150, height: 50, ...style }}>Auto</span>
       </div>
     </>
   )
