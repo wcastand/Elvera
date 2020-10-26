@@ -1,0 +1,49 @@
+import { Meta, Story, Canvas } from '@storybook/addon-docs/blocks'
+
+import { TestStagger } from './helpers'
+
+<Meta title="MDX/useChain" component={TestStagger} />
+
+# useChain
+
+## Basic
+
+<Story name="Basic">
+  <TestStagger />
+</Story>
+
+```tsx
+import React from 'react'
+import useSpring, { interpolate } from './useSpring'
+import useChain from './useChain'
+
+export const TestStagger = () => {
+  const { value: value1 } = useSpring({ auto: false })
+  const { value: value2 } = useSpring({ auto: false })
+  const { value: value3 } = useSpring({ auto: false })
+  const { start, stop } = useChain([spring1, spring2, spring3], { auto: false })
+
+  return (
+    <>
+      <div style={{ zIndex: 99, marginBottom: 50 }}>
+        <button onClick={() => start()}>start</button>
+        <button onClick={() => stop()}>stop</button>
+      </div>
+      <div style={{ zIndex: 1, position: 'relative', width: 100, height: 160, transformOrigin: 'center' }}>
+        <span
+          style={{
+            display: 'block',
+            position: 'relative',
+            textAlign: 'center',
+            ...interpolate({ left: [0, 100, 'px'] }, value1),
+            ...interpolate({ top: [0, 100, 'px'] }, value2),
+            ...interpolate({ rotate: [0, 360, 'deg'] }, value2),
+          }}
+        >
+          Hello
+        </span>
+      </div>
+    </>
+  )
+}
+```

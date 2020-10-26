@@ -1,0 +1,104 @@
+import { Meta, Story, Canvas } from '@storybook/addon-docs/blocks'
+
+import { Test } from './helpers'
+
+<Meta title="MDX/useSpring" component={Test} />
+
+# useSpring
+
+To get a spring function to interpolate.
+
+## Basic
+
+<Story name="Basic">
+  <Test tr={{ left: [0, 150, 'px'] }} />
+</Story>
+
+```tsx
+import React from 'react'
+import useSpring, { interpolate } from './useSpring'
+
+export const Test = () => {
+  const { value, start } = useSpring({ auto: false })
+  return (
+    <>
+      <button style={{ zIndex: 99, marginBottom: 50 }} onClick={() => start()}>
+        start
+      </button>
+      <div style={{ zIndex: 0, position: 'relative' }}>
+        <span style={{ position: 'relative', display: 'block', width: 150, height: 50, ...interpolate({ left: [0, 150, 'px'] }, value) }}>
+          Hello
+        </span>
+      </div>
+    </>
+  )
+}
+```
+
+## Transform
+
+<Story name="Transform">
+  <Test tr={{ translateX: [0, 150, 'px'], scale: [0.3, 2] }} />
+</Story>
+
+```tsx
+import React from 'react'
+import useSpring, { interpolate } from './useSpring'
+
+export const Test = () => {
+  const { value, start } = useSpring({ auto: false })
+  return (
+    <>
+      <button style={{ zIndex: 99, marginBottom: 50 }} onClick={() => start()}>
+        start
+      </button>
+      <div style={{ zIndex: 0, position: 'relative' }}>
+        <span
+          style={{
+            position: 'relative',
+            display: 'block',
+            width: 150,
+            height: 50,
+            ...interpolate({ translateX: [0, 150, 'px'], scale: [0.3, 2] }, value),
+          }}
+        >
+          Hello
+        </span>
+      </div>
+    </>
+  )
+}
+```
+
+<Story name="Matrix">
+  <Test tr={{ translateX: [0, 150, 'px'], skew: ['15deg, 15deg', '0deg, 0deg'] }} />
+</Story>
+
+```tsx
+import React from 'react'
+import useSpring from './useSpring'
+
+export const Test = () => {
+  const { value, start } = useSpring({ auto: false })
+  return (
+    <>
+      <button style={{ zIndex: 99, marginBottom: 50 }} onClick={() => start()}>
+        start
+      </button>
+      <div style={{ zIndex: 0, position: 'relative' }}>
+        <span
+          style={{
+            position: 'relative',
+            display: 'block',
+            width: 150,
+            height: 50,
+            ...interpolate({ translateX: [0, 150, 'px'], skew: ['15deg, 15deg', '0deg, 0deg'] }, value),
+          }}
+        >
+          Hello
+        </span>
+      </div>
+    </>
+  )
+}
+```
